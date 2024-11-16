@@ -50,7 +50,7 @@ fun Vacancy.toVacancyModel(): VacancyModel {
         salary = salary.toSalaryModel(),
         schedules = schedules,
         appliedNumber = appliedNumber ?: 0,
-        description = description,
+        description = description ?: "",
         responsibilities = responsibilities,
         questions = questions
     )

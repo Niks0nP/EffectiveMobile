@@ -16,7 +16,7 @@ data class Vacancy(
     @SerialName("salary") val salary: Salary,
     @SerialName("schedules") val schedules: List<String>,
     @SerialName("appliedNumber") val appliedNumber: Int? = null,
-    @SerialName("description") val description: String,
+    @SerialName("description") val description: String? = null,
     @SerialName("responsibilities") val responsibilities: String,
     @SerialName("questions") val questions: List<String>
 )

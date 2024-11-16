@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.niks0n.effectivemobile"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.niks0n.effectivemobile"
@@ -42,6 +42,9 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

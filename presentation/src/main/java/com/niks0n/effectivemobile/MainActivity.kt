@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.niks0n.effectivemobile.ui.feature.home.MainScreen
+import com.niks0n.effectivemobile.ui.EffectiveApp
 import com.niks0n.effectivemobile.ui.theme.EffectiveTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             EffectiveTheme {
-                MainScreen()
+                EffectiveApp()
             }
         }
     }

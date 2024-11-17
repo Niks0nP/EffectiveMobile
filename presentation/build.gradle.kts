@@ -65,6 +65,8 @@ dependencies {
     implementation (libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
 
+    implementation(libs.retrofit.kotlin.serialization)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

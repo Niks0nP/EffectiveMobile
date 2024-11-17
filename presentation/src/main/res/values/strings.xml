@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="search_bar_text">Поиск</string>
+    <string name="favorite_bar_text">Избранное</string>
+    <string name="messages_bar_text">Сообщения</string>
+    <string name="profile_bar_text">Профиль</string>
+    <string name="response_bar_text">Отклики</string>
 </resources>

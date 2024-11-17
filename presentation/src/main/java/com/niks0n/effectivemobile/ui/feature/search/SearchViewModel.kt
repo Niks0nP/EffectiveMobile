@@ -1,4 +1,4 @@
-package com.niks0n.effectivemobile.ui.feature.home
+package com.niks0n.effectivemobile.ui.feature.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -320,3 +320,8 @@ val onCustomDarkGreenDarkHighContrast = Color(0xFF000000)
 val customDarkGreenContainerDarkHighContrast = Color(0xFFA8D79A)
 val onCustomDarkGreenContainerDarkHighContrast = Color(0xFF000000)
 
+
+// Custom colors
+val colorSecondaryDarkGray = Color(0x318C8C8C)
+
+

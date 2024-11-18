@@ -8,4 +8,6 @@
     <string name="messages_bar_text">Сообщения</string>
     <string name="profile_bar_text">Профиль</string>
     <string name="response_bar_text">Отклики</string>
+    <string name="search_component_text">Должность, ключевые слова</string>
+
 </resources>

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.niks0n.domain.models.JobDataModel
 import com.niks0n.domain.repository.VacanciesRepository
-import com.niks0n.effectivemobile.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,13 +26,6 @@ class HomeViewModel @Inject constructor(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = MainScreenState.Loading
-    )
-
-    val iconsList = listOf(
-        R.drawable.vacancy_near_icon,
-        R.drawable.offer_icon,
-        R.drawable.time_work_icon,
-        R.drawable.books_icon
     )
 }
 

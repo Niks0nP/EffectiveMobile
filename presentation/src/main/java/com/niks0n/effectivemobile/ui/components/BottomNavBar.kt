@@ -45,15 +45,13 @@ fun BottomNavBar(
                 selected = selected,
                 onClick = { onNavigate(destination.route) },
                 icon = {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(
-                                if (selected) destination.selectedIcon
-                                else destination.unselectedIcon),
-                            contentDescription = ""
-                        )
-
-                    }
+                    Icon(
+                        imageVector = ImageVector.vectorResource(
+                            if (selected) destination.selectedIcon
+                            else destination.unselectedIcon
+                        ),
+                        contentDescription = ""
+                    )
                 },
                 label = {
                     Text(

@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -51,6 +47,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.niks0n.domain.models.OfferModel
 import com.niks0n.domain.models.VacancyModel
 import com.niks0n.effectivemobile.R
+import com.niks0n.effectivemobile.ui.feature.favorite.FavoriteViewModel
 import com.niks0n.effectivemobile.ui.theme.buttonColor
 import com.niks0n.effectivemobile.ui.theme.buttonVacanciesColor
 import com.niks0n.effectivemobile.ui.theme.colorBackgroundElement
@@ -62,11 +59,11 @@ import com.niks0n.effectivemobile.utils.offerIcon
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel(),
+    searchViewModel: HomeViewModel = hiltViewModel(),
     paddingValues: PaddingValues,
     onNavigate: () -> Unit
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by searchViewModel.state.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         modifier = modifier,
@@ -104,7 +101,7 @@ private fun SearchScreenContent(
 }
 
 @Composable
-fun SuccessScreenContent(
+private fun SuccessScreenContent(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     offersList: List<OfferModel>,
@@ -307,7 +304,7 @@ fun VacancyItem(
 }
 
 @Composable
-fun SearchComponent(modifier: Modifier = Modifier) {
+private fun SearchComponent(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()

@@ -16,13 +16,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -52,6 +52,7 @@ import com.niks0n.domain.models.OfferModel
 import com.niks0n.domain.models.VacancyModel
 import com.niks0n.effectivemobile.R
 import com.niks0n.effectivemobile.ui.theme.buttonColor
+import com.niks0n.effectivemobile.ui.theme.buttonVacanciesColor
 import com.niks0n.effectivemobile.ui.theme.colorBackgroundElement
 import com.niks0n.effectivemobile.ui.theme.colorSecondaryDarkGray
 import com.niks0n.effectivemobile.ui.theme.customGreenContainerDarkMediumContrast
@@ -61,21 +62,26 @@ import com.niks0n.effectivemobile.utils.offerIcon
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    paddingValues: PaddingValues,
+    onNavigate: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     SearchScreenContent(
-        modifier = modifier
-            .padding(WindowInsets.statusBars.asPaddingValues()),
-        state = state
+        modifier = modifier,
+        state = state,
+        paddingValues = paddingValues,
+        onNavigate = onNavigate
     )
 }
 
 @Composable
 private fun SearchScreenContent(
     modifier: Modifier = Modifier,
-    state: MainScreenState
+    state: MainScreenState,
+    paddingValues: PaddingValues,
+    onNavigate: () -> Unit
 ) {
     Crossfade(
         targetState = state is MainScreenState.Loading,
@@ -87,8 +93,10 @@ private fun SearchScreenContent(
                 val successState = state as MainScreenState.Success
                 SuccessScreenContent(
                     modifier = modifier,
+                    paddingValues = paddingValues,
                     offersList = successState.jobInfo.offers,
-                    vacanciesList = successState.jobInfo.vacancies
+                    vacanciesList = successState.jobInfo.vacancies,
+                    onNavigate = onNavigate
                 )
             }
         }
@@ -98,11 +106,15 @@ private fun SearchScreenContent(
 @Composable
 fun SuccessScreenContent(
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
     offersList: List<OfferModel>,
-    vacanciesList:  List<VacancyModel>
+    vacanciesList:  List<VacancyModel>,
+    onNavigate: () -> Unit
 ) {
+    val stateScreen = remember { mutableStateOf(false) }
+
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = paddingValues.calculateBottomPadding()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
@@ -121,8 +133,26 @@ fun SuccessScreenContent(
                 fontSize = 20.sp
             )
         }
-        items(vacanciesList) { vacancy ->
-            VacancyItem(vacancyItem = vacancy)
+        items(if (!stateScreen.value) vacanciesList.subList(0, 3) else vacanciesList) { vacancy ->
+            VacancyItem(vacancyItem = vacancy, onNavigate = onNavigate)
+        }
+        if (!stateScreen.value) {
+            item {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    onClick = { stateScreen.value = !stateScreen.value },
+                    colors = ButtonColors(
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        containerColor = buttonVacanciesColor,
+                        disabledContentColor = Color.Gray,
+                        disabledContainerColor = Color.White
+                    )
+                ) {
+                    Text("Еще ${vacanciesList.size} вакансий")
+                }
+            }
         }
     }
 }
@@ -135,7 +165,7 @@ private fun OfferList(
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        itemsIndexed(offersList) { index, offerItem ->
+        items(offersList) { offerItem ->
             OfferItem(
                 offerItem = offerItem
             )
@@ -154,6 +184,7 @@ private fun OfferItem(
             .size(width = 132.dp, height = 120.dp)
             .clip(RoundedCornerShape(cornersRoundedSize))
             .background(colorBackgroundElement)
+            .clickable {  }
             .padding(8.dp)
     ) {
         Image(
@@ -188,7 +219,8 @@ private fun OfferItem(
 @Composable
 fun VacancyItem(
     modifier: Modifier = Modifier,
-    vacancyItem: VacancyModel
+    vacancyItem: VacancyModel,
+    onNavigate: () -> Unit
 ) {
     var selected by remember { mutableStateOf(false) }
     Column(
@@ -198,6 +230,7 @@ fun VacancyItem(
             .heightIn(240.dp)
             .clip(RoundedCornerShape(cornersRoundedSize))
             .background(colorBackgroundElement)
+            .clickable { onNavigate() }
             .padding(16.dp)
     ) {
         Row(
@@ -215,7 +248,7 @@ fun VacancyItem(
                     .clip(CircleShape)
                     .clickable { selected = !selected },
                 imageVector = ImageVector.vectorResource(
-                    if (selected) R.drawable.favorite_current
+                    if (vacancyItem.isFavorite) R.drawable.favorite_current
                     else R.drawable.favorite_default
                 ),
                 contentDescription = ""

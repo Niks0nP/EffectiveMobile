@@ -325,4 +325,4 @@ val onCustomDarkGreenContainerDarkHighContrast = Color(0xFF000000)
 val colorSecondaryDarkGray = Color(0x318C8C8C)
 val colorBackgroundElement = Color(0x316C6C6C)
 val buttonColor = Color(0xFF4CB24E)
-
+val buttonVacanciesColor = Color(0xFF2B7EFE)

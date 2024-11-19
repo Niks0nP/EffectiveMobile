@@ -7,6 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -18,6 +21,7 @@ import com.niks0n.effectivemobile.ui.feature.favorite.FavoriteScreen
 import com.niks0n.effectivemobile.ui.feature.messages.MessagesScreen
 import com.niks0n.effectivemobile.ui.feature.profile.ProfileScreen
 import com.niks0n.effectivemobile.ui.feature.response.ResponseScreen
+import com.niks0n.effectivemobile.ui.feature.search.DetailScreen
 import com.niks0n.effectivemobile.ui.feature.search.SearchScreen
 
 @Composable
@@ -36,11 +40,23 @@ fun EffectiveNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable<Route.Search> {
-            SearchScreen()
+        navigation<Route.Search>(
+            startDestination = Route.Search.Home
+        ) {
+            composable<Route.Search.Home> { backStackEntry ->
+                SearchScreen(paddingValues = paddingValues) {
+                    if (backStackEntry.lifecycleIsResumed()) {
+                        navController.navigate(Route.Search.Detail)
+                    }
+                }
+            }
+            composable<Route.Search.Detail> {
+                DetailScreen()
+            }
         }
+
         composable<Route.Favorite> {
-            FavoriteScreen()
+            FavoriteScreen(paddingValues = paddingValues)
         }
         composable<Route.Messages> {
             MessagesScreen()
@@ -56,3 +72,6 @@ fun EffectiveNavGraph(
 
 fun NavDestination?.hasRoute(route: Route) =
     this?.hierarchy?.any { it.hasRoute(route::class) } == true
+
+private fun NavBackStackEntry.lifecycleIsResumed() =
+    this.lifecycle.currentState == Lifecycle.State.RESUMED

@@ -10,6 +10,7 @@
     <string name="response_bar_text">Отклики</string>
     <string name="search_component_text">Должность, ключевые слова</string>
     <string name="header_vacancies">Вакансии для вас</string>
+    <string name="header_favorites">Избранное</string>
     <string name="button_vacancy">Откликнуться</string>
 
 </resources>

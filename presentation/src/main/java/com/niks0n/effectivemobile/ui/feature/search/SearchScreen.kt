@@ -1,5 +1,7 @@
 package com.niks0n.effectivemobile.ui.feature.search
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -47,7 +50,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.niks0n.domain.models.OfferModel
 import com.niks0n.domain.models.VacancyModel
 import com.niks0n.effectivemobile.R
-import com.niks0n.effectivemobile.ui.feature.favorite.FavoriteViewModel
 import com.niks0n.effectivemobile.ui.theme.buttonColor
 import com.niks0n.effectivemobile.ui.theme.buttonVacanciesColor
 import com.niks0n.effectivemobile.ui.theme.colorBackgroundElement
@@ -176,12 +178,17 @@ private fun OfferItem(
     modifier: Modifier = Modifier,
     offerItem: OfferModel
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .size(width = 132.dp, height = 120.dp)
             .clip(RoundedCornerShape(cornersRoundedSize))
             .background(colorBackgroundElement)
-            .clickable {  }
+            .clickable {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(offerItem.link))
+                context.startActivity(intent)
+            }
             .padding(8.dp)
     ) {
         Image(
